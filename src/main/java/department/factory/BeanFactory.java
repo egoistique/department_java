@@ -1,10 +1,15 @@
 package department.factory;
 
+import department.annotation.Inject;
 import department.config.Configuration;
 import department.config.JavaConfiguration;
 import department.configurator.BeanConfigurator;
 import department.configurator.JavaBeanConfigurator;
 import lombok.SneakyThrows;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class BeanFactory {
 
@@ -14,7 +19,7 @@ public class BeanFactory {
 
     private BeanFactory(){
         this.configuration = new JavaConfiguration();
-        this.beanConfigurator = new JavaBeanConfigurator(configuration.getPackageToScan());
+        this.beanConfigurator = new JavaBeanConfigurator(configuration.getPackageToScan(), configuration.getInterfaceToImplementations());
     }
 
     public static BeanFactory getInstance(){
@@ -27,6 +32,13 @@ public class BeanFactory {
         if(implementationClass.isInterface()){
             implementationClass = beanConfigurator.getImplementationClass(implementationClass);
         }
-        return implementationClass.getDeclaredConstructor().newInstance();
+        T bean = implementationClass.getDeclaredConstructor().newInstance();
+
+        for(Field field : Arrays.stream(implementationClass.getDeclaredFields()).filter(field -> field.isAnnotationPresent(Inject.class)).collect(Collectors.toList())){
+            field.setAccessible(true);
+            field.set(bean, BEAN_FACTORY.getBean(field.getType()));
+        }
+
+        return bean;
     }
 }

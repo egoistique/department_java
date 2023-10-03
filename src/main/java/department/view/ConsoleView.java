@@ -1,5 +1,6 @@
 package department.view;
 
+import department.annotation.Inject;
 import department.data.model.Department;
 import department.data.model.Employee;
 import department.factory.BeanFactory;
@@ -14,13 +15,11 @@ import java.util.Scanner;
 
 public class ConsoleView implements View {
 
-    private CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
+    //@Inject
+    private final CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-//    public ConsoleView(DIContainer diContainer) {
-//        diContainer.injectDependencies(this);
-//    }
     @Override
     public void displayMenu() {
         while (true) {

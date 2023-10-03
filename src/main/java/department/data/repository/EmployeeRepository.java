@@ -1,6 +1,7 @@
 package department.data.repository;
 
 
+import department.annotation.Inject;
 import department.data.datastore.CompanyDataStore;
 import department.data.model.Department;
 import department.data.model.Employee;
@@ -12,7 +13,8 @@ import java.util.List;
  */
 public class EmployeeRepository implements Repository{
 
-    CompanyDataStore store = new CompanyDataStore();
+    @Inject
+    CompanyDataStore store;
 
     public void save(Employee employee){
         store.employees.add(employee);
