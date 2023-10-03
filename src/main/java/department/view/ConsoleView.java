@@ -2,7 +2,7 @@ package department.view;
 
 import department.data.model.Department;
 import department.data.model.Employee;
-import department.di.DIContainer;
+import department.factory.BeanFactory;
 import department.service.CompanyService;
 
 import java.util.List;
@@ -12,15 +12,16 @@ import java.util.Scanner;
  * Консольный интерфейс
  */
 
-public class ConsoleView {
+public class ConsoleView implements View {
 
-    private CompanyService service;
+    private CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
 
     private Scanner scanner = new Scanner(System.in);
 
-    public ConsoleView(DIContainer diContainer) {
-        diContainer.injectDependencies(this);
-    }
+//    public ConsoleView(DIContainer diContainer) {
+//        diContainer.injectDependencies(this);
+//    }
+    @Override
     public void displayMenu() {
         while (true) {
             System.out.println("что вы хотите сделать? выберите цифру:");
@@ -57,6 +58,7 @@ public class ConsoleView {
             }
         }
     }
+    @Override
     public void addEmployee() {
         System.out.println("Новый сотрудник.");
         System.out.print("имя: ");
@@ -72,6 +74,7 @@ public class ConsoleView {
     }
 
 
+    @Override
     public void deleteEmployee() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("введите имя удаляемого сотрудника");
@@ -81,6 +84,7 @@ public class ConsoleView {
         service.removeEmployee(nameDep, name);
     }
 
+    @Override
     public void addDepartment() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("введите название отедела:");
@@ -89,6 +93,7 @@ public class ConsoleView {
 
     }
 
+    @Override
     public void deleteDepartment() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("введите название удаляемого отедела:");
@@ -96,6 +101,7 @@ public class ConsoleView {
         service.deleteDepartment(departmentName);
     }
 
+    @Override
     public void viewDepartments() {
         List<Department> departments = service.getAllDepartments();
 

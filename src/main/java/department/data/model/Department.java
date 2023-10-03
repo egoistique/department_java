@@ -7,7 +7,7 @@ import java.util.List;
  Класс отдела
  */
 
-public class Department {
+public class Department implements Entity{
     private String name;
 
     private List<Employee> employees;
@@ -28,6 +28,7 @@ public class Department {
         this.employees = employees;
     }
 
+    @Override
     public String getName() {
         return name;
     }

@@ -4,7 +4,7 @@ package department.data.model;
 Класс сотрудника
  */
 
-public class Employee {
+public class Employee implements Entity{
     private String name;
     private int age;
     private double salary;
@@ -15,6 +15,7 @@ public class Employee {
         this.salary = salary;
     }
 
+    @Override
     public String getName() {
         return name;
     }

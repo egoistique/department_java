@@ -10,16 +10,19 @@ import java.util.List;
  * Класс репозитория, отвечает за добавление, поиск и тд
  */
 
-public class DepartmentRepository {
+public class DepartmentRepository implements Repository {
 
     CompanyDataStore store = new CompanyDataStore();
 
+    @Override
     public void save(Department department){
         store.departments.add(department);
     }
+    @Override
     public void delete(String departmentName){
         store.departments.removeIf(department -> department.getName().equals(departmentName));
     }
+    @Override
     public Department findByName(String departmentName){
         for (Department department : store.departments) {
             if (department.getName().equals(departmentName)) {

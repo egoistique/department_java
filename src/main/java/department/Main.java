@@ -11,21 +11,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DIContainer container = new DIContainer();
+//        DIContainer container = new DIContainer();
+//
+//        DepartmentRepository departmentRepository = new DepartmentRepository();
+//        EmployeeRepository employeeRepository = new EmployeeRepository();
+//        CompanyService companyService = new CompanyService(departmentRepository, employeeRepository);
+//
+//        container.register(DepartmentRepository.class, departmentRepository);
+//        container.register(EmployeeRepository.class, employeeRepository);
+//        container.register(CompanyService.class, companyService);
 
-        // Зарегистрируем зависимости (репозитории и сервис) в контейнере
-        DepartmentRepository departmentRepository = new DepartmentRepository();
-        EmployeeRepository employeeRepository = new EmployeeRepository();
-        CompanyService companyService = new CompanyService(departmentRepository, employeeRepository);
+        ConsoleView view = new ConsoleView();
 
-        container.register(DepartmentRepository.class, departmentRepository);
-        container.register(EmployeeRepository.class, employeeRepository);
-        container.register(CompanyService.class, companyService);
-
-        // Создаем и передаем DI контейнер в ConsoleView
-        ConsoleView view = new ConsoleView(container);
-
-        // Вызываем метод отображения меню
         view.displayMenu();
     }
 }

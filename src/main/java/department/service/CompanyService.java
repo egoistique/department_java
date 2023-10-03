@@ -6,6 +6,7 @@ import department.data.model.Employee;
 import department.data.repository.DepartmentRepository;
 import department.data.repository.EmployeeRepository;
 import department.di.Inject;
+import department.factory.BeanFactory;
 
 import java.util.List;
 
@@ -14,18 +15,11 @@ import java.util.List;
  */
 
 public class CompanyService {
-    @Inject
-    private DepartmentRepository departmentRepository;
-    @Inject
-    private EmployeeRepository employeeRepository;
+   // @Inject
+    private DepartmentRepository departmentRepository = BeanFactory.getInstance().getBean(DepartmentRepository.class);
+    //@Inject
+    private EmployeeRepository employeeRepository = BeanFactory.getInstance().getBean(EmployeeRepository.class);
 
-    public CompanyService() {
-
-    }
-//    public CompanyService(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository) {
-//        this.departmentRepository = departmentRepository;
-//        this.employeeRepository = employeeRepository;
-//    }
 
     public void addDepartment(Department department) {
         departmentRepository.save(department);
