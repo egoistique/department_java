@@ -1,6 +1,7 @@
 package department.view;
 
 import department.annotation.Inject;
+import department.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
 import department.factory.BeanFactory;
@@ -13,6 +14,7 @@ import java.util.Scanner;
  * Консольный интерфейс
  */
 
+@Injectable
 public class ConsoleView implements View {
 
     //@Inject
@@ -106,9 +108,15 @@ public class ConsoleView implements View {
 
         for (Department department : departments) {
             String departmentName = department.getName();
+            List<Employee> employees = department.getEmployees();
             int numberOfEmployees = department.getNumberOfEmployees();
 
             System.out.println("Название: " + departmentName + ", число сотрудников: " + numberOfEmployees);
+            System.out.println("Сотрудники: ");
+            for (Employee e : employees){
+                System.out.println("Имя: " + e.getName() + "; Возраст: " + e.getAge() + "; Зарплата: " + e.getSalary());
+            }
+            System.out.println();
         }
     }
 }

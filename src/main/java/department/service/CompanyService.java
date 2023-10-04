@@ -2,6 +2,7 @@ package department.service;
 
 
 import department.annotation.Inject;
+import department.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
 import department.data.repository.DepartmentRepository;
@@ -14,6 +15,7 @@ import java.util.List;
  * Класс бизнес логики
  */
 
+@Injectable
 public class CompanyService {
     @Inject
     private DepartmentRepository departmentRepository ;
@@ -46,6 +48,7 @@ public class CompanyService {
 
     public void removeEmployee(String departmentName, String empName) {
         employeeRepository.delete(empName);
+        departmentRepository.deleteEmployee(empName, departmentName);
     }
 
     public void editEmployee(Employee employee) {

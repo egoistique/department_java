@@ -2,6 +2,7 @@ package department.data.repository;
 
 
 import department.annotation.Inject;
+import department.annotation.Injectable;
 import department.data.datastore.CompanyDataStore;
 import department.data.model.Department;
 import department.data.model.Employee;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Класс репозитория, отвечает за добавление, поиск и тд
  */
+@Injectable
 public class EmployeeRepository implements Repository{
 
     @Inject

@@ -54,4 +54,8 @@ public class Department implements Entity{
         this.employees.add(employee);
     }
 
+    public void removeEmp(Employee e){
+        employees.remove(e);
+    }
+
 }
