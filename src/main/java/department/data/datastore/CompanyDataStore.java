@@ -15,16 +15,16 @@ public class CompanyDataStore {
     public List<Department> departments = new ArrayList<>();
 
     public CompanyDataStore(){
-        Employee e1 = new Employee("Вася", 20, 90000);
-        Employee e2 = new Employee("Петя", 21, 60000);
-        Employee e3 = new Employee("Маша", 22, 80000);
-        Employee e4 = new Employee("Оля", 23, 95000);
-        Employee e5 = new Employee("Вика", 24, 100000);
 
+        Department d1 = new Department(1, "Dep1" );
+        Department d2 = new Department(2, "Dep2" );
+        Department d3 = new Department(3, "Dep3" );
 
-        Department d1 = new Department("Dep1" );
-        Department d2 = new Department("Dep2" );
-        Department d3 = new Department("Dep3" );
+        Employee e1 = new Employee(1,"Вася", 20, 90000, 1);
+        Employee e2 = new Employee(2, "Петя", 21, 60000, 2);
+        Employee e3 = new Employee(3, "Маша", 22, 80000, 3);
+        Employee e4 = new Employee(4, "Оля", 23, 95000, 1);
+        Employee e5 = new Employee(5, "Вика", 24, 100000, 2);
 
         d1.addEmployee(e1);
         d1.addEmployee(e4);

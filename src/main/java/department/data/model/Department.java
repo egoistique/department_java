@@ -8,13 +8,15 @@ import java.util.List;
  */
 
 public class Department implements Entity{
+    private int id;
     private String name;
 
     private List<Employee> employees;
 
     private int numberOfEmployees;
 
-    public Department(String name) {
+    public Department(int id, String name) {
+        this.id = id;
         this.name = name;
         this.employees = new ArrayList<>();
         this.numberOfEmployees = employees.size();

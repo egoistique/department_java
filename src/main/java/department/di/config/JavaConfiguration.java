@@ -1,4 +1,4 @@
-package department.config;
+package department.di.config;
 
 import department.data.repository.DepartmentRepository;
 import department.data.repository.EmployeeRepository;

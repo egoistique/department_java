@@ -1,17 +1,15 @@
-package department.factory;
+package department.di.factory;
 
-import department.annotation.Inject;
-import department.annotation.Injectable;
-import department.config.Configuration;
-import department.config.JavaConfiguration;
-import department.configurator.BeanConfigurator;
-import department.configurator.JavaBeanConfigurator;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
+import department.di.config.Configuration;
+import department.di.config.JavaConfiguration;
+import department.di.configurator.BeanConfigurator;
+import department.di.configurator.JavaBeanConfigurator;
 import lombok.SneakyThrows;
-import org.reflections.Reflections;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BeanFactory {

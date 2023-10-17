@@ -1,16 +1,18 @@
 package department.view;
 
+import java.sql.SQLException;
+
 public interface View {
 
-    void displayMenu();
+    void displayMenu() throws SQLException;
 
-    void addEmployee();
+    void addEmployee() throws SQLException;
 
-    void deleteEmployee();
+    void deleteEmployee() throws SQLException;
 
-    void addDepartment();
+    void addDepartment() throws SQLException;
 
-    void deleteDepartment();
+    void deleteDepartment() throws SQLException;
 
-    void viewDepartments();
+    void viewDepartments() throws SQLException;
 }

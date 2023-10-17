@@ -1,4 +1,4 @@
-package department.config;
+package department.di.config;
 
 import java.util.Map;
 

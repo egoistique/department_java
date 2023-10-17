@@ -1,7 +1,7 @@
 package department.data.repository;
 
-import department.annotation.Inject;
-import department.annotation.Injectable;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
 import department.data.datastore.CompanyDataStore;
 import department.data.model.Department;
 import department.data.model.Employee;
@@ -19,15 +19,15 @@ public class DepartmentRepository implements Repository {
     CompanyDataStore store ;
 
     @Override
-    public void save(Department department){
+    public void createDepartment(Department department){
         store.departments.add(department);
     }
     @Override
-    public void delete(String departmentName){
+    public void deleteDepartment(String departmentName){
         store.departments.removeIf(department -> department.getName().equals(departmentName));
     }
     @Override
-    public Department findByName(String departmentName){
+    public Department getDepartmentByName(String departmentName){
         for (Department department : store.departments) {
             if (department.getName().equals(departmentName)) {
                 return department;
@@ -35,12 +35,12 @@ public class DepartmentRepository implements Repository {
         }
         return null;
     }
-    public List<Department> findAll(){
+    public List<Department> getAllDepartments(){
         return store.departments;
     }
 
-    public void addEmployee(Employee employee, String depName){
-        Department department = findByName(depName);
+    public void addEmployeeToDepartment(Employee employee, String depName){
+        Department department = getDepartmentByName(depName);
 
         if (department != null) {
             department.addEmployee(employee);

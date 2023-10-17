@@ -1,8 +1,8 @@
 package department.data.repository;
 
 
-import department.annotation.Inject;
-import department.annotation.Injectable;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
 import department.data.datastore.CompanyDataStore;
 import department.data.model.Department;
 import department.data.model.Employee;
@@ -13,35 +13,40 @@ import java.util.List;
  * Класс репозитория, отвечает за добавление, поиск и тд
  */
 @Injectable
-public class EmployeeRepository implements Repository{
+public class EmployeeRepository {
 
     @Inject
     CompanyDataStore store;
 
-    public void save(Employee employee){
+    public void createEmployee(Employee employee){
         store.employees.add(employee);
     }
 
-    @Override
-    public void save(Department department) {
-
-    }
-
-    public void delete(String empName) {
+    public void deleteEmployee(String empName) {
         store.employees.removeIf(employee -> employee.getName().equals(empName));
     }
 
-    @Override
-    public Department findByName(String departmentName) {
+
+    public Department getDepartmentByName(String departmentName) {
         return null;
     }
 
-    public Employee findById(int employeeId){
+    public Employee getEmployeeById(int employeeId){
         return store.employees.get(employeeId);
     }
 
-    public List<Employee> findAll(){
+    public List<Employee> getAllEmployees(){
         return store.employees;
+    }
+
+
+    public void createDepartment(Department department) {
+
+    }
+
+
+    public void deleteDepartment(Department department) {
+
     }
 }
 

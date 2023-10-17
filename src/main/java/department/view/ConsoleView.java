@@ -1,12 +1,13 @@
 package department.view;
 
-import department.annotation.Inject;
-import department.annotation.Injectable;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
-import department.factory.BeanFactory;
+import department.di.factory.BeanFactory;
 import department.service.CompanyService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,14 +17,16 @@ import java.util.Scanner;
 
 @Injectable
 public class ConsoleView implements View {
-
-    //@Inject
-    private final CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
+//
+//    //@Inject
+//    private final CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
+    @Inject
+    private  CompanyService service ;
 
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public void displayMenu() {
+    public void displayMenu() throws SQLException {
         while (true) {
             System.out.println("что вы хотите сделать? выберите цифру:");
             System.out.println("1. добавить сотрудника");
@@ -60,50 +63,56 @@ public class ConsoleView implements View {
         }
     }
     @Override
-    public void addEmployee() {
+    public void addEmployee() throws SQLException {
         System.out.println("Новый сотрудник.");
+        System.out.print("id: ");
+        int id = scanner.nextInt();
         System.out.print("имя: ");
         String name = scanner.next();
         System.out.print("возраст: ");
         int age = scanner.nextInt();
         System.out.print("зарплата: ");
         double salary = scanner.nextDouble();
-        System.out.print("название отедела: ");
+        System.out.print("Название отедела: ");
         String depName = scanner.next();
+        System.out.print("id отедела: ");
+        int depId = scanner.nextInt();
 
-        service.addEmployeeToDepartment(depName, new Employee(name, age, salary));
+        service.addEmployeeToDepartment(depName, depId, new Employee(id, name, age, salary, depId));
     }
 
 
     @Override
-    public void deleteEmployee() {
+    public void deleteEmployee() throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("введите имя удаляемого сотрудника");
-        String name = scanner.nextLine();
-        System.out.println("введите название отедела, в котором работает этот сотрудник:");
-        String nameDep = scanner.nextLine();
-        service.removeEmployee(nameDep, name);
+        System.out.println("введите id удаляемого сотрудника");
+        int name = scanner.nextInt();
+//        System.out.println("введите название отедела, в котором работает этот сотрудник:");
+//        String nameDep = scanner.nextLine();
+        service.removeEmployee(name);
     }
 
     @Override
-    public void addDepartment() {
+    public void addDepartment() throws SQLException {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("id: ");
+        int id = scanner.nextInt();
         System.out.println("введите название отедела:");
         String departmentName = scanner.nextLine();
-        service.addDepartment(new Department(departmentName));
+        service.addDepartment(new Department(id, departmentName));
 
     }
 
     @Override
-    public void deleteDepartment() {
+    public void deleteDepartment() throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("введите название удаляемого отедела:");
-        String departmentName = scanner.nextLine();
-        service.deleteDepartment(departmentName);
+        System.out.println("введите индекс удаляемого отедела:");
+        int departmentInd = scanner.nextInt();
+        service.deleteDepartment(departmentInd);
     }
 
     @Override
-    public void viewDepartments() {
+    public void viewDepartments() throws SQLException {
         List<Department> departments = service.getAllDepartments();
 
         for (Department department : departments) {

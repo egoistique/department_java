@@ -1,4 +1,4 @@
-package department.configurator;
+package department.di.configurator;
 
 public interface BeanConfigurator {
 
