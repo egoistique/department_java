@@ -63,12 +63,19 @@ public class DepartmentDAO implements DAO<Department> {
 
     @Override
     public void delete(int departmentId) throws SQLException {
-        String sql = "DELETE FROM department WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, departmentId);
-            statement.executeUpdate();
+        String deleteEmployeesSql = "DELETE FROM Employee WHERE department_id = ?";
+        try (PreparedStatement deleteEmployeesStatement = connection.prepareStatement(deleteEmployeesSql)) {
+            deleteEmployeesStatement.setInt(1, departmentId);
+            deleteEmployeesStatement.executeUpdate();
+        }
+
+        String deleteDepartmentSql = "DELETE FROM department WHERE id = ?";
+        try (PreparedStatement deleteDepartmentStatement = connection.prepareStatement(deleteDepartmentSql)) {
+            deleteDepartmentStatement.setInt(1, departmentId);
+            deleteDepartmentStatement.executeUpdate();
         }
     }
+
 
     @Override
     public List<Department> getAll() throws SQLException {

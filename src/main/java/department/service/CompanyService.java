@@ -57,7 +57,6 @@ public class CompanyService {
 
 
         employeeRepository.create(depId, name, age, salary);
-        //departmentRepository.addEmployeeToDepartment(employee, depId);
     }
 
     public void removeEmployee(int empId) throws SQLException {
