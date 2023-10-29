@@ -10,24 +10,22 @@ import java.util.List;
 public class Department implements Entity{
     private int id;
     private String name;
-
-    private List<Employee> employees;
-
+    private List<Integer> employeesIds;
     private int numberOfEmployees;
 
     public Department(int id, String name) {
         this.id = id;
         this.name = name;
-        this.employees = new ArrayList<>();
-        this.numberOfEmployees = employees.size();
+        this.employeesIds = new ArrayList<>();
+        this.numberOfEmployees = employeesIds.size();
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public List<Integer> getEmployeesIds() {
+        return employeesIds;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setEmployeesIds(List<Integer> employeesIds) {
+        this.employeesIds = employeesIds;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class Department implements Entity{
     }
 
     public int getNumberOfEmployees() {
-        numberOfEmployees = employees.size();
+        numberOfEmployees = employeesIds.size();
         return numberOfEmployees;
     }
 
@@ -49,15 +47,22 @@ public class Department implements Entity{
     }
 
     public void addEmployee(Employee employee) {
-        if (this.employees == null) {
-            this.employees = new ArrayList<>();
+        if (this.employeesIds == null) {
+            this.employeesIds = new ArrayList<>();
         }
 
-        this.employees.add(employee);
+        this.employeesIds.add(employee.getId());
     }
 
     public void removeEmp(Employee e){
-        employees.remove(e);
+        employeesIds.remove(e);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

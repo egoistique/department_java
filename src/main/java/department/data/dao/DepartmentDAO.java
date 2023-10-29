@@ -8,8 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Injectable
-public class DepartmentDAO {
+
+public class DepartmentDAO implements DAO<Department> {
 
     private Connection connection;
 
@@ -17,15 +17,22 @@ public class DepartmentDAO {
         this.connection =  DriverManager.getConnection("jdbc:h2:file:I:/вуз/3 курс/databases/agencydb", "123", "123");
     }
 
-    public void createDepartment(Department department) throws SQLException {
+    //@Override
+    public void create(String name) throws SQLException {
         String sql = "INSERT INTO department (name) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, department.getName());
+            statement.setString(1, name);
             statement.executeUpdate();
         }
     }
 
-    public Department getDepartmentById(int departmentId) throws SQLException {
+    @Override
+    public void create(Department entity) throws SQLException {
+
+    }
+
+    @Override
+    public Department getById(int departmentId) throws SQLException {
         String sql = "SELECT * FROM department WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, departmentId);
@@ -39,7 +46,8 @@ public class DepartmentDAO {
         }
     }
 
-    public Department getDepartmentByName(String departmentName) throws SQLException {
+    @Override
+    public Department getByName(String departmentName) throws SQLException {
         String sql = "SELECT * FROM department WHERE name = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, departmentName);
@@ -53,7 +61,8 @@ public class DepartmentDAO {
         }
     }
 
-    public void deleteDepartment(int departmentId) throws SQLException {
+    @Override
+    public void delete(int departmentId) throws SQLException {
         String sql = "DELETE FROM department WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, departmentId);
@@ -61,7 +70,8 @@ public class DepartmentDAO {
         }
     }
 
-    public List<Department> getAllDepartments() throws SQLException {
+    @Override
+    public List<Department> getAll() throws SQLException {
         List<Department> departments = new ArrayList<>();
         String sql = "SELECT * FROM department";
         try (PreparedStatement statement = connection.prepareStatement(sql);
@@ -74,9 +84,39 @@ public class DepartmentDAO {
     }
 
 
-    public void addEmployeeToDepartment(Employee employee, String depName){
-
+    public void addEmployeeToDepartment(Employee employee, int depId) throws SQLException{
+        String updateSql = "UPDATE department SET employees_ids = employees_ids || ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
+            statement.setInt(1, employee.getId());
+            statement.setInt(2, depId);
+            statement.executeUpdate();
+        }
     }
+
+    public List<Employee> getEmployeesFromDepartment(int depId) throws SQLException {
+        List<Employee> employees = new ArrayList<>();
+
+        String sql = "SELECT id, name, age, salary, department_id FROM Employee WHERE department_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, depId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int employeeId = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    int age = resultSet.getInt("age");
+                    double salary = resultSet.getDouble("salary");
+                    // Дополнительные данные сотрудника, которые вы можете получить из базы данных
+
+                    Employee employee = new Employee(employeeId, name, age, salary, depId);
+                    employees.add(employee);
+                }
+            }
+        }
+
+        return employees;
+    }
+
+
 //    public void updateDepartment(Department department) throws SQLException {
 //        String sql = "UPDATE department SET name = ? WHERE id = ?";
 //        try (PreparedStatement statement = connection.prepareStatement(sql)) {

@@ -17,11 +17,11 @@ import java.util.Scanner;
 
 @Injectable
 public class ConsoleView implements View {
-//
-//    //@Inject
-//    private final CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
+
     @Inject
-    private  CompanyService service ;
+    private final CompanyService service = BeanFactory.getInstance().getBean(CompanyService.class);
+//    @Inject
+//    private  CompanyService service ;
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -34,7 +34,8 @@ public class ConsoleView implements View {
             System.out.println("3. добавить отдел");
             System.out.println("4. удалить отдел");
             System.out.println("5. посмотреть все отделы");
-            System.out.println("6. выход");
+            System.out.println("6. посмотреть всех сотрудников");
+            System.out.println("7. выход");
 
             int choice = scanner.nextInt();
 
@@ -55,6 +56,9 @@ public class ConsoleView implements View {
                     viewDepartments();
                     break;
                 case 6:
+                    viewEmployees();
+                    break;
+                case 7:
                     System.out.println("выход");
                     System.exit(0);
                 default:
@@ -62,11 +66,12 @@ public class ConsoleView implements View {
             }
         }
     }
+
     @Override
     public void addEmployee() throws SQLException {
         System.out.println("Новый сотрудник.");
-        System.out.print("id: ");
-        int id = scanner.nextInt();
+//        System.out.print("id: ");
+//        int id = scanner.nextInt();
         System.out.print("имя: ");
         String name = scanner.next();
         System.out.print("возраст: ");
@@ -75,10 +80,10 @@ public class ConsoleView implements View {
         double salary = scanner.nextDouble();
         System.out.print("Название отедела: ");
         String depName = scanner.next();
-        System.out.print("id отедела: ");
-        int depId = scanner.nextInt();
+//        System.out.print("id отедела: ");
+//        int depId = scanner.nextInt();
 
-        service.addEmployeeToDepartment(depName, depId, new Employee(id, name, age, salary, depId));
+        service.addEmployeeToDepartment(depName, name, age, salary);
     }
 
 
@@ -99,7 +104,7 @@ public class ConsoleView implements View {
         int id = scanner.nextInt();
         System.out.println("введите название отедела:");
         String departmentName = scanner.nextLine();
-        service.addDepartment(new Department(id, departmentName));
+        service.addDepartment(departmentName);
 
     }
 
@@ -117,14 +122,37 @@ public class ConsoleView implements View {
 
         for (Department department : departments) {
             String departmentName = department.getName();
-            List<Employee> employees = department.getEmployees();
+            List<Employee> employees = service.getEmployeesFromDepartment(department.getId());
+
+            //временно пусть выводит только id сотрудников
+            // List<Employee> employees = department.getEmployeesIds();
             int numberOfEmployees = department.getNumberOfEmployees();
 
-            System.out.println("Название: " + departmentName + ", число сотрудников: " + numberOfEmployees);
+            System.out.println("Название: " + departmentName + ", число сотрудников: " + employees.size());
             System.out.println("Сотрудники: ");
             for (Employee e : employees){
-                System.out.println("Имя: " + e.getName() + "; Возраст: " + e.getAge() + "; Зарплата: " + e.getSalary());
+                System.out.println("Id: " +  e.getId() + " Имя: " + e.getName() + "; Возраст: " + e.getAge() + "; Зарплата: " + e.getSalary());
             }
+//            for (int e : employeesIds){
+//                System.out.println("Id: " +  e);
+//            }
+            System.out.println();
+        }
+    }
+
+    private void viewEmployees() throws SQLException {
+        List<Employee> employeeList = service.getAllEmployees();
+
+        for (Employee employee : employeeList) {
+            int employeeId = employee.getId();
+            String employeeName = employee.getName();
+            int employeeAge = employee.getAge();
+            double employeeSalary = employee.getSalary();
+            int employeeDepId = employee.getDepartmentId();
+
+
+            System.out.println("Id: " +  employeeId +"; Имя: " + employeeName + "; Возраст: " +employeeAge
+                    + "; Зарплата: " + employeeSalary + "; Id отдела: " + employeeDepId);
             System.out.println();
         }
     }

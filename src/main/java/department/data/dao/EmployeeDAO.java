@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EmployeeDAO {
+public class EmployeeDAO implements DAO<Employee>{
 
     String jdbcUrl = "jdbc:h2:file:I:/вуз/3 курс/databases/agencydb";
     String username = "123";
@@ -21,18 +21,25 @@ public class EmployeeDAO {
         this.connection =  DriverManager.getConnection(jdbcUrl, username, password);
     }
 
-    public void createEmployee(Employee employee) throws SQLException {
+    //@Override
+    public void create(int depId, String name, int age, double salary) throws SQLException {
         String sql = "INSERT INTO employee (name, age, salary, department_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, employee.getName());
-            statement.setInt(2, employee.getAge());
-            statement.setDouble(3, employee.getSalary());
-            statement.setInt(4, employee.getDepartmentId());
+            statement.setString(1, name);
+            statement.setInt(2, age);
+            statement.setDouble(3, salary);
+            statement.setInt(4, depId);
             statement.executeUpdate();
         }
     }
 
-    public Employee getEmployeeById(int employeeId) throws SQLException {
+    @Override
+    public void create(Employee entity) throws SQLException {
+
+    }
+
+    @Override
+    public Employee getById(int employeeId) throws SQLException {
         String sql = "SELECT * FROM employee WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, employeeId);
@@ -64,7 +71,8 @@ public class EmployeeDAO {
         }
     }
 
-    public void deleteEmployee(int employeeId) throws SQLException {
+    @Override
+    public void delete(int employeeId) throws SQLException {
         String sql = "DELETE FROM employee WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, employeeId);
@@ -72,7 +80,8 @@ public class EmployeeDAO {
         }
     }
 
-    public List<Employee> getAllEmployees() throws SQLException {
+    @Override
+    public List<Employee> getAll() throws SQLException {
         List<Employee> employees = new ArrayList<>();
         String sql = "SELECT * FROM employee";
         try (PreparedStatement statement = connection.prepareStatement(sql);
@@ -88,5 +97,10 @@ public class EmployeeDAO {
             }
         }
         return employees;
+    }
+
+    @Override
+    public Employee getByName(String name){
+        return null;
     }
 }

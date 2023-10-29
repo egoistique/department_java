@@ -7,10 +7,11 @@ import department.di.annotation.Inject;
 import department.di.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
-import department.data.repository.DepartmentRepository;
-import department.data.repository.EmployeeRepository;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,36 +26,42 @@ public class CompanyService {
 //    private EmployeeRepository employeeRepository ;
 
 
-    @Inject
-    private DepartmentDAO departmentRepository;
-    @Inject
-    private EmployeeDAO employeeRepository;
+   // @Inject
+    private DepartmentDAO departmentRepository = new DepartmentDAO();
+    //@Inject
+    private EmployeeDAO employeeRepository = new EmployeeDAO();
 
-    public void addDepartment(Department department) throws SQLException {
-        departmentRepository.createDepartment(department);
+    public CompanyService() throws SQLException {
+    }
+
+    public void addDepartment(String name) throws SQLException {
+        departmentRepository.create(name);
     }
 
     public void deleteDepartment(int departmentName) throws SQLException {
-        departmentRepository.deleteDepartment(departmentName);
+        departmentRepository.delete(departmentName);
     }
 
     public void editDepartment(Department department) {
 
     }
 
-    public void addEmployeeToDepartment(String departmentName, int depId, Employee employee) throws SQLException {
-        Department department = departmentRepository.getDepartmentByName(departmentName);
-
+    public void addEmployeeToDepartment(String departmentName, String name, int age, double salary) throws SQLException {
+        Department department = departmentRepository.getByName(departmentName);
+        int depId;
         if (department == null) {
-            departmentRepository.createDepartment(new Department(depId, departmentName));
+            departmentRepository.create(departmentName);
+            department = departmentRepository.getByName(departmentName);
         }
+        depId = department.getId();
 
-        employeeRepository.createEmployee(employee);
-        departmentRepository.addEmployeeToDepartment(employee, departmentName);
+
+        employeeRepository.create(depId, name, age, salary);
+        //departmentRepository.addEmployeeToDepartment(employee, depId);
     }
 
     public void removeEmployee(int empId) throws SQLException {
-        employeeRepository.deleteEmployee(empId);
+        employeeRepository.delete(empId);
         //departmentRepository.deleteEmployee(empName, departmentName);
     }
 
@@ -63,7 +70,15 @@ public class CompanyService {
     }
 
     public List<Department> getAllDepartments() throws SQLException {
-        return departmentRepository.getAllDepartments();
+        return departmentRepository.getAll();
+    }
+
+    public List<Employee> getAllEmployees() throws SQLException {
+        return employeeRepository.getAll();
+    }
+
+    public List<Employee> getEmployeesFromDepartment(int depId) throws SQLException {
+        return departmentRepository.getEmployeesFromDepartment(depId);
     }
 
     public List<Employee> getEmployeesInDepartment(String departmentName) {

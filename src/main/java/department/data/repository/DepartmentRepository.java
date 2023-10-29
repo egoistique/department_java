@@ -49,17 +49,17 @@ public class DepartmentRepository implements Repository {
         }
     }
 
-    public void deleteEmployee(String employeeName, String dep){
-        for (Department d : store.departments) {
-            if(d.getName().equals(dep)) {
-                for (Employee e : d.getEmployees()) {
-                    if (e.getName().equals(employeeName)) {
-                        d.removeEmp(e);
-                        return;
-                    }
-                }
-            }
-        }
-    }
+//    public void deleteEmployee(String employeeName, String dep){
+//        for (Department d : store.departments) {
+//            if(d.getName().equals(dep)) {
+//                for (Employee e : d.getEmployeesIds()) {
+//                    if (e.getName().equals(employeeName)) {
+//                        d.removeEmp(e);
+//                        return;
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
 

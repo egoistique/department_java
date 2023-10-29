@@ -1,5 +1,7 @@
 package department.di.config;
 
+import department.data.dao.DepartmentDAO;
+import department.data.dao.EmployeeDAO;
 import department.data.repository.DepartmentRepository;
 import department.data.repository.EmployeeRepository;
 
@@ -13,6 +15,6 @@ public class JavaConfiguration implements Configuration{
 
     @Override
     public Map<Class, Class> getInterfaceToImplementations() {
-        return Map.of(DepartmentRepository.class, EmployeeRepository.class);
+        return Map.of(DepartmentDAO.class, EmployeeDAO.class);
     }
 }

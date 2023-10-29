@@ -9,11 +9,6 @@ public class Employee {
     private String name;
     private int age;
     private double salary;
-
-    public int getDepartmentId() {
-        return department_id;
-    }
-
     private int department_id;
 
     public Employee(int id, String name, int age, double salary, int department_id) {
@@ -40,6 +35,8 @@ public class Employee {
         return salary;
     }
 
-
+    public int getDepartmentId() {
+        return department_id;
+    }
 }
 
