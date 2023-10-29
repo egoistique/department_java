@@ -14,21 +14,15 @@ public class DepartmentDAO implements DAO<Department> {
     private Connection connection;
 
     public DepartmentDAO() throws SQLException {
-        this.connection =  DriverManager.getConnection("jdbc:h2:file:I:/вуз/3 курс/databases/agencydb", "123", "123");
+        this.connection =  DriverManager.getConnection("jdbc:h2:file:./companydb", "123", "123");
     }
 
-    //@Override
     public void create(String name) throws SQLException {
         String sql = "INSERT INTO department (name) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             statement.executeUpdate();
         }
-    }
-
-    @Override
-    public void create(Department entity) throws SQLException {
-
     }
 
     @Override
@@ -76,7 +70,6 @@ public class DepartmentDAO implements DAO<Department> {
         }
     }
 
-
     @Override
     public List<Department> getAll() throws SQLException {
         List<Department> departments = new ArrayList<>();
@@ -88,16 +81,6 @@ public class DepartmentDAO implements DAO<Department> {
             }
         }
         return departments;
-    }
-
-
-    public void addEmployeeToDepartment(Employee employee, int depId) throws SQLException{
-        String updateSql = "UPDATE department SET employees_ids = employees_ids || ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(updateSql)) {
-            statement.setInt(1, employee.getId());
-            statement.setInt(2, depId);
-            statement.executeUpdate();
-        }
     }
 
     public List<Employee> getEmployeesFromDepartment(int depId) throws SQLException {
@@ -112,7 +95,6 @@ public class DepartmentDAO implements DAO<Department> {
                     String name = resultSet.getString("name");
                     int age = resultSet.getInt("age");
                     double salary = resultSet.getDouble("salary");
-                    // Дополнительные данные сотрудника, которые вы можете получить из базы данных
 
                     Employee employee = new Employee(employeeId, name, age, salary, depId);
                     employees.add(employee);
@@ -123,13 +105,13 @@ public class DepartmentDAO implements DAO<Department> {
         return employees;
     }
 
-
-//    public void updateDepartment(Department department) throws SQLException {
-//        String sql = "UPDATE department SET name = ? WHERE id = ?";
-//        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-//            statement.setString(1, department.getName());
-//            statement.setInt(2, department.getId());
-//            statement.executeUpdate();
-//        }
-//    }
+    @Override
+    public void update(Department department) throws SQLException {
+        String sql = "UPDATE department SET name = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, department.getName());
+            statement.setInt(2, department.getId());
+            statement.executeUpdate();
+        }
+    }
 }

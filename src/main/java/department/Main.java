@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
 
-        String jdbcUrl = "jdbc:h2:file:I:/вуз/3 курс/databases/agencydb";
+        String jdbcUrl = "jdbc:h2:file:./companydb";
         String username = "123";
         String password = "123";
 

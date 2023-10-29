@@ -42,8 +42,8 @@ public class CompanyService {
         departmentRepository.delete(departmentName);
     }
 
-    public void editDepartment(Department department) {
-
+    public void editDepartment(Department department) throws SQLException{
+        departmentRepository.update(department);
     }
 
     public void addEmployeeToDepartment(String departmentName, String name, int age, double salary) throws SQLException {
@@ -55,17 +55,15 @@ public class CompanyService {
         }
         depId = department.getId();
 
-
         employeeRepository.create(depId, name, age, salary);
     }
 
     public void removeEmployee(int empId) throws SQLException {
         employeeRepository.delete(empId);
-        //departmentRepository.deleteEmployee(empName, departmentName);
     }
 
-    public void editEmployee(Employee employee) {
-
+    public void editEmployee(Employee employee) throws SQLException {
+        employeeRepository.update(employee);
     }
 
     public List<Department> getAllDepartments() throws SQLException {
@@ -80,8 +78,12 @@ public class CompanyService {
         return departmentRepository.getEmployeesFromDepartment(depId);
     }
 
-    public List<Employee> getEmployeesInDepartment(String departmentName) {
-        return null;
+    public Employee getEmployee(int id) throws SQLException {
+        return employeeRepository.getById(id);
+    }
+
+    public Department getDepartment(int id) throws SQLException {
+        return departmentRepository.getById(id);
     }
 
     public double getTotalSalaryInDepartment(String departmentName) {

@@ -30,12 +30,14 @@ public class ConsoleView implements View {
         while (true) {
             System.out.println("что вы хотите сделать? выберите цифру:");
             System.out.println("1. добавить сотрудника");
-            System.out.println("2. удалить сотрудника");
-            System.out.println("3. добавить отдел");
-            System.out.println("4. удалить отдел");
-            System.out.println("5. посмотреть всех сотрудников");
-            System.out.println("6. посмотреть все отделы");
-            System.out.println("7. выход");
+            System.out.println("2. редактировать сотрудника");
+            System.out.println("3. удалить сотрудника");
+            System.out.println("4. добавить отдел");
+            System.out.println("5. редактировать отдел");
+            System.out.println("6. удалить отдел");
+            System.out.println("7. посмотреть всех сотрудников");
+            System.out.println("8. посмотреть все отделы");
+            System.out.println("9. выход");
 
             int choice = scanner.nextInt();
 
@@ -44,21 +46,27 @@ public class ConsoleView implements View {
                     addEmployee();
                     break;
                 case 2:
-                    deleteEmployee();
+                    editEmployee();
                     break;
                 case 3:
-                    addDepartment();
+                    deleteEmployee();
                     break;
                 case 4:
-                    deleteDepartment();
+                    addDepartment();
                     break;
                 case 5:
-                    viewEmployees();
+                    editDepartment();
                     break;
                 case 6:
-                    viewDepartments();
+                    deleteDepartment();
                     break;
                 case 7:
+                    viewEmployees();
+                    break;
+                case 8:
+                    viewDepartments();
+                    break;
+                case 9:
                     System.out.println("выход");
                     System.exit(0);
                 default:
@@ -82,6 +90,28 @@ public class ConsoleView implements View {
         service.addEmployeeToDepartment(depName, name, age, salary);
     }
 
+    public void editEmployee() throws SQLException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("введите id редактируемого сотрудника");
+        int id = scanner.nextInt();
+        Employee employee = service.getEmployee(id);
+        System.out.println("Текущие данные сотрудника: ");
+        System.out.println("Имя: " + employee.getName() +
+                "; Возраст: " + employee.getAge() +
+                "; Зарплата: " + employee.getSalary() +
+                "; Отдел: " + employee.getDepartmentId());
+        System.out.println("Введите новые данные сотрудника: ");
+        System.out.print("имя: ");
+        String name = scanner.next();
+        System.out.print("возраст: ");
+        int age = scanner.nextInt();
+        System.out.print("зарплата: ");
+        double salary = scanner.nextDouble();
+        System.out.print("Id отедела: ");
+        int depId = scanner.nextInt();
+
+        service.editEmployee(new Employee(id, name, age, salary, depId));
+    }
 
     @Override
     public void deleteEmployee() throws SQLException {
@@ -100,6 +130,20 @@ public class ConsoleView implements View {
 
     }
 
+    public void editDepartment() throws SQLException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("введите id редактируемого отдела");
+        int id = scanner.nextInt();
+        Department department = service.getDepartment(id);
+        System.out.println("Текущие данные отдела: ");
+        System.out.println("Имя: " + department.getName());
+        System.out.println("Введите новые данные отдела: ");
+        System.out.print("имя: ");
+        String name = scanner.next();
+
+        service.editDepartment(new Department(id, name));
+    }
+
     @Override
     public void deleteDepartment() throws SQLException {
         Scanner scanner = new Scanner(System.in);
@@ -116,9 +160,9 @@ public class ConsoleView implements View {
             String departmentName = department.getName();
             List<Employee> employees = service.getEmployeesFromDepartment(department.getId());
             System.out.println("Id: " + department.getId() + "; Название: " + departmentName + ", число сотрудников: " + employees.size());
-            System.out.println("Сотрудники: ");
+            System.out.println("    Сотрудники: ");
             for (Employee e : employees){
-                System.out.println("Id: " +  e.getId() + " Имя: " + e.getName() + "; Возраст: " + e.getAge() + "; Зарплата: " + e.getSalary());
+                System.out.println("        Id: " +  e.getId() + " Имя: " + e.getName() + "; Возраст: " + e.getAge() + "; Зарплата: " + e.getSalary());
             }
             System.out.println();
         }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EmployeeDAO implements DAO<Employee>{
 
-    String jdbcUrl = "jdbc:h2:file:I:/вуз/3 курс/databases/agencydb";
+    String jdbcUrl = "jdbc:h2:file:./companydb";
     String username = "123";
     String password = "123";
     @Inject
@@ -21,7 +21,6 @@ public class EmployeeDAO implements DAO<Employee>{
         this.connection =  DriverManager.getConnection(jdbcUrl, username, password);
     }
 
-    //@Override
     public void create(int depId, String name, int age, double salary) throws SQLException {
         String sql = "INSERT INTO employee (name, age, salary, department_id) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -31,11 +30,6 @@ public class EmployeeDAO implements DAO<Employee>{
             statement.setInt(4, depId);
             statement.executeUpdate();
         }
-    }
-
-    @Override
-    public void create(Employee entity) throws SQLException {
-
     }
 
     @Override
@@ -59,7 +53,8 @@ public class EmployeeDAO implements DAO<Employee>{
         }
     }
 
-    public void updateEmployee(Employee employee) throws SQLException {
+    @Override
+    public void update(Employee employee) throws SQLException {
         String sql = "UPDATE employee SET name = ?, age = ?, salary = ?, department_id = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, employee.getName());
