@@ -29,13 +29,11 @@ public class CompanyService {
     private Connection connection;
    // @Inject
     private DepartmentDAO departmentRepository;
-    //@Inject
+
     private EmployeeDAO employeeRepository;
 
     @Inject
-    ConnectionConfiguration configuration = BeanFactory.getInstance().getBean(ConnectionConfiguration.class);;
-    DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(configuration);
-
+    DatabaseConnectionManager connectionManager = BeanFactory.getInstance().getBean(DatabaseConnectionManager.class);
 
     public CompanyService() throws SQLException {
         connection = connectionManager.openConnection();

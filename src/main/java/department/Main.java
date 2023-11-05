@@ -6,6 +6,7 @@ import department.data.dao.DepartmentDAO;
 import department.data.dao.EmployeeDAO;
 import department.di.annotation.Inject;
 import department.di.annotation.Injectable;
+import department.di.factory.BeanFactory;
 import department.view.ConsoleView;
 
 import java.sql.Connection;
@@ -14,11 +15,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Main {
+    @Inject
+    static DatabaseConnectionManager connectionManager = BeanFactory.getInstance().getBean(DatabaseConnectionManager.class);
+
 
     public static void main(String[] args) throws SQLException {
-        ConnectionConfiguration configuration = new ConnectionConfiguration();
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(configuration);
-
         Connection connection = null;
 
         try {
