@@ -1,5 +1,7 @@
 package department;
 
+import department.connection.ConnectionConfiguration;
+import department.connection.DatabaseConnectionManager;
 import department.data.dao.DepartmentDAO;
 import department.data.dao.EmployeeDAO;
 import department.view.ConsoleView;
@@ -12,12 +14,13 @@ import java.sql.Statement;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
+        ConnectionConfiguration configuration = new ConnectionConfiguration();
+        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(configuration);
 
-        String jdbcUrl = "jdbc:h2:file:./companydb";
-        String username = "123";
-        String password = "123";
+        Connection connection = null;
 
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+        try {
+            connection = connectionManager.openConnection();
             System.out.println("Соединение установлено.");
 
             try (Statement statement = connection.createStatement()) {
@@ -26,10 +29,10 @@ public class Main {
                 statement.execute(createTablesSQL);
                 System.out.println("Таблицы созданы.");
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionManager.closeConnection(connection);
         }
 
         ConsoleView view = new ConsoleView();
