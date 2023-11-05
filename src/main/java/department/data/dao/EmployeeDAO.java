@@ -12,11 +12,9 @@ import java.util.List;
 
 public class EmployeeDAO implements DAO<Employee>{
 
-    private Connection connection;
     private EmployeeORM employeeORM;
 
     public EmployeeDAO(Connection connection) {
-        this.connection = connection;
         this.employeeORM = new EmployeeORM(connection);
     }
 

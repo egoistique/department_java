@@ -11,11 +11,9 @@ import java.util.List;
 
 public class DepartmentDAO implements DAO<Department> {
 
-    private Connection connection;
     private DepartmentORM departmentORM;
 
     public DepartmentDAO(Connection connection) {
-        this.connection = connection;
         this.departmentORM = new DepartmentORM(connection);
     }
 

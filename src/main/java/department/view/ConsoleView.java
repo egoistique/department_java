@@ -67,8 +67,7 @@ public class ConsoleView implements View {
                     viewDepartments();
                     break;
                 case 9:
-                    System.out.println("выход");
-                    System.exit(0);
+                    exit();
                 default:
                     System.out.println("неправильный ввод");
             }
@@ -183,5 +182,11 @@ public class ConsoleView implements View {
                     + "; Зарплата: " + employeeSalary + "; Id отдела: " + employeeDepId);
             System.out.println();
         }
+    }
+
+    private void exit(){
+        System.out.println("выход");
+        service.exit();
+        System.exit(0);
     }
 }

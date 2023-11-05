@@ -1,6 +1,8 @@
 package department.service;
 
 
+import department.connection.ConnectionConfiguration;
+import department.connection.DatabaseConnectionManager;
 import department.data.dao.DepartmentDAO;
 import department.data.dao.EmployeeDAO;
 import department.di.annotation.Inject;
@@ -28,9 +30,12 @@ public class CompanyService {
     private DepartmentDAO departmentRepository;
     //@Inject
     private EmployeeDAO employeeRepository;
+    ConnectionConfiguration configuration = new ConnectionConfiguration();
+    DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(configuration);
+
 
     public CompanyService() throws SQLException {
-        this.connection =  DriverManager.getConnection("jdbc:h2:file:./companydb", "123", "123");
+        connection = connectionManager.openConnection();
         employeeRepository = new EmployeeDAO(connection);
         departmentRepository = new DepartmentDAO(connection);
     }
@@ -91,5 +96,9 @@ public class CompanyService {
         return 0;
     }
 
+
+    public void exit(){
+        connectionManager.closeConnection(connection);
+    }
 }
 
