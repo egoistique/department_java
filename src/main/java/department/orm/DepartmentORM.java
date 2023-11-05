@@ -1,7 +1,11 @@
 package department.orm;
 
+import department.connection.DatabaseConnectionManager;
 import department.data.model.Department;
 import department.data.model.Employee;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
+import department.di.factory.BeanFactory;
 import exception.ORMException;
 
 import java.sql.Connection;
@@ -11,11 +15,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Injectable
 public class DepartmentORM {
-    private Connection connection;
+    private final Connection connection;
+    @Inject
+    DatabaseConnectionManager connectionManager = BeanFactory.getInstance().getBean(DatabaseConnectionManager.class);
 
-    public DepartmentORM(Connection connection) {
-        this.connection = connection;
+    public DepartmentORM() throws SQLException {
+        connection = connectionManager.openConnection();
     }
 
     public void beginTransaction() throws SQLException {
@@ -40,6 +47,7 @@ public class DepartmentORM {
     public void close() {
         try {
             if (connection != null) {
+                connectionManager.closeConnection(connection);
                 connection.close();
             }
         } catch (SQLException e) {

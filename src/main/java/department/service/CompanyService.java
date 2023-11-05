@@ -26,20 +26,10 @@ public class CompanyService {
 //    @Inject
 //    private EmployeeRepository employeeRepository ;
 
-    private Connection connection;
-   // @Inject
-    private DepartmentDAO departmentRepository;
-
-    private EmployeeDAO employeeRepository;
-
     @Inject
-    DatabaseConnectionManager connectionManager = BeanFactory.getInstance().getBean(DatabaseConnectionManager.class);
-
-    public CompanyService() throws SQLException {
-        connection = connectionManager.openConnection();
-        employeeRepository = new EmployeeDAO(connection);
-        departmentRepository = new DepartmentDAO(connection);
-    }
+    private final DepartmentDAO departmentRepository = BeanFactory.getInstance().getBean(DepartmentDAO.class);
+    @Inject
+    private final EmployeeDAO employeeRepository= BeanFactory.getInstance().getBean(EmployeeDAO.class);
 
     public void addDepartment(String name) throws SQLException {
         departmentRepository.create(name);
@@ -99,7 +89,8 @@ public class CompanyService {
 
 
     public void exit(){
-        connectionManager.closeConnection(connection);
+        employeeRepository.close();
+        departmentRepository.close();
     }
 }
 

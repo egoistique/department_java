@@ -10,8 +10,8 @@ public class DepartmentDAO implements DAO<Department> {
 
     private DepartmentORM departmentORM;
 
-    public DepartmentDAO(Connection connection) {
-        this.departmentORM = new DepartmentORM(connection);
+    public DepartmentDAO() throws SQLException {
+        this.departmentORM = new DepartmentORM();
     }
 
     public void create(String name) throws SQLException {
@@ -66,5 +66,10 @@ public class DepartmentDAO implements DAO<Department> {
             departmentORM.rollbackTransaction();
             throw e;
         }
+    }
+
+    @Override
+    public void close(){
+        departmentORM.close();
     }
 }

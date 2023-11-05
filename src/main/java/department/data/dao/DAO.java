@@ -16,5 +16,7 @@ public interface DAO<T> {
     List<T> getAll() throws SQLException;
 
     void update(T entity) throws SQLException;
+
+    void close();
 }
 

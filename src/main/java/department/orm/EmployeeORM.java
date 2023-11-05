@@ -1,6 +1,9 @@
 package department.orm;
 
+import department.connection.DatabaseConnectionManager;
 import department.data.model.Employee;
+import department.di.annotation.Inject;
+import department.di.factory.BeanFactory;
 import exception.ORMException;
 
 import java.sql.Connection;
@@ -12,9 +15,11 @@ import java.util.List;
 
 public class EmployeeORM {
     private Connection connection;
+    @Inject
+    DatabaseConnectionManager connectionManager = BeanFactory.getInstance().getBean(DatabaseConnectionManager.class);
 
-    public EmployeeORM(Connection connection) {
-        this.connection = connection;
+    public EmployeeORM() throws SQLException {
+        connection = connectionManager.openConnection();
     }
 
     public void beginTransaction() throws SQLException {
@@ -39,6 +44,7 @@ public class EmployeeORM {
     public void close() {
         try {
             if (connection != null) {
+                connectionManager.closeConnection(connection);
                 connection.close();
             }
         } catch (SQLException e) {

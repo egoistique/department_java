@@ -14,8 +14,8 @@ public class EmployeeDAO implements DAO<Employee>{
 
     private EmployeeORM employeeORM;
 
-    public EmployeeDAO(Connection connection) {
-        this.employeeORM = new EmployeeORM(connection);
+    public EmployeeDAO() throws SQLException {
+        this.employeeORM = new EmployeeORM();
     }
 
     public void create(int depId, String name, int age, double salary) throws SQLException {
@@ -29,10 +29,12 @@ public class EmployeeDAO implements DAO<Employee>{
         }
     }
 
+    @Override
     public Employee getById(int employeeId) throws SQLException {
         return employeeORM.getById(employeeId);
     }
 
+    @Override
     public void update(Employee employee) throws SQLException {
         employeeORM.beginTransaction();
         try {
@@ -44,6 +46,7 @@ public class EmployeeDAO implements DAO<Employee>{
         }
     }
 
+    @Override
     public void delete(int employeeId) throws SQLException {
         employeeORM.beginTransaction();
         try {
@@ -55,13 +58,18 @@ public class EmployeeDAO implements DAO<Employee>{
         }
     }
 
+    @Override
     public List<Employee> getAll() throws SQLException {
         return employeeORM.getAll();
     }
 
+    @Override
     public Employee getByName(String name) {
         return employeeORM.getByName(name);
     }
 
-
+    @Override
+    public void close(){
+        employeeORM.close();
+    }
 }

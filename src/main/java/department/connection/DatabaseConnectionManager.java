@@ -10,19 +10,11 @@ import java.sql.SQLException;
 
 @Injectable
 public class DatabaseConnectionManager {
-
-
     @Inject
     ConnectionConfiguration configuration = BeanFactory.getInstance().getBean(ConnectionConfiguration.class);
-    private String jdbcUrl = configuration.getJdbcUrl();
-    private String username = configuration.getUsername();
-    private String password = configuration.getPassword();
-
-//    public DatabaseConnectionManager(ConnectionConfiguration configuration) {
-//        this.jdbcUrl = configuration.getJdbcUrl();
-//        this.username = configuration.getUsername();
-//        this.password = configuration.getPassword();
-//    }
+    private final String jdbcUrl = configuration.getJdbcUrl();
+    private final String username = configuration.getUsername();
+    private final String password = configuration.getPassword();
 
     public Connection openConnection() throws SQLException {
         return DriverManager.getConnection(jdbcUrl, username, password);
@@ -32,6 +24,7 @@ public class DatabaseConnectionManager {
         try {
             if (connection != null) {
                 connection.close();
+                System.out.println("manager closed connection");
             }
         } catch (SQLException e) {
             e.printStackTrace();
