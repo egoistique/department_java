@@ -1,18 +1,18 @@
 package department.data.dao;
 import department.data.model.Department;
 import department.data.model.Employee;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
+import department.di.factory.BeanFactory;
 import department.orm.DepartmentORM;
 
 import java.sql.*;
 import java.util.List;
 
+@Injectable
 public class DepartmentDAO implements DAO<Department> {
-
-    private DepartmentORM departmentORM;
-
-    public DepartmentDAO() throws SQLException {
-        this.departmentORM = new DepartmentORM();
-    }
+    @Inject
+    private final DepartmentORM departmentORM = BeanFactory.getInstance().getBean(DepartmentORM.class);;
 
     public void create(String name) throws SQLException {
         departmentORM.beginTransaction();

@@ -3,20 +3,18 @@ import department.data.model.Department;
 import department.data.model.Employee;
 import department.di.annotation.Inject;
 import department.di.annotation.Injectable;
+import department.di.factory.BeanFactory;
+import department.orm.DepartmentORM;
 import department.orm.EmployeeORM;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Injectable
 public class EmployeeDAO implements DAO<Employee>{
-
-    private EmployeeORM employeeORM;
-
-    public EmployeeDAO() throws SQLException {
-        this.employeeORM = new EmployeeORM();
-    }
+    @Inject
+    private final EmployeeORM employeeORM = BeanFactory.getInstance().getBean(EmployeeORM.class);
 
     public void create(int depId, String name, int age, double salary) throws SQLException {
         employeeORM.beginTransaction();
