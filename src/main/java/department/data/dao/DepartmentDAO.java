@@ -2,12 +2,9 @@ package department.data.dao;
 import department.data.model.Department;
 import department.data.model.Employee;
 import department.orm.DepartmentORM;
-import department.orm.EmployeeORM;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class DepartmentDAO implements DAO<Department> {
 

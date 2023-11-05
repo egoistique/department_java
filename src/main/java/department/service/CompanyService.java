@@ -9,6 +9,7 @@ import department.di.annotation.Inject;
 import department.di.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
+import department.di.factory.BeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,7 +31,9 @@ public class CompanyService {
     private DepartmentDAO departmentRepository;
     //@Inject
     private EmployeeDAO employeeRepository;
-    ConnectionConfiguration configuration = new ConnectionConfiguration();
+
+    @Inject
+    ConnectionConfiguration configuration = BeanFactory.getInstance().getBean(ConnectionConfiguration.class);;
     DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(configuration);
 
 

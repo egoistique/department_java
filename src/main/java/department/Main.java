@@ -4,6 +4,8 @@ import department.connection.ConnectionConfiguration;
 import department.connection.DatabaseConnectionManager;
 import department.data.dao.DepartmentDAO;
 import department.data.dao.EmployeeDAO;
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
 import department.view.ConsoleView;
 
 import java.sql.Connection;

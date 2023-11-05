@@ -1,9 +1,13 @@
 package department.connection;
 
+import department.di.annotation.Inject;
+import department.di.annotation.Injectable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Injectable
 public class DatabaseConnectionManager {
     private String jdbcUrl;
     private String username;

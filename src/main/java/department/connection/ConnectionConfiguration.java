@@ -1,5 +1,8 @@
 package department.connection;
 
+import department.di.annotation.Injectable;
+
+@Injectable
 public class ConnectionConfiguration {
     private String jdbcUrl;
     private String username;
