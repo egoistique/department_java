@@ -8,9 +8,7 @@ import department.di.annotation.Injectable;
 import department.data.model.Department;
 import department.data.model.Employee;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +23,16 @@ public class CompanyService {
 //    @Inject
 //    private EmployeeRepository employeeRepository ;
 
-
+    private Connection connection;
    // @Inject
-    private DepartmentDAO departmentRepository = new DepartmentDAO();
+    private DepartmentDAO departmentRepository;
     //@Inject
-    private EmployeeDAO employeeRepository = new EmployeeDAO();
+    private EmployeeDAO employeeRepository;
 
     public CompanyService() throws SQLException {
+        this.connection =  DriverManager.getConnection("jdbc:h2:file:./companydb", "123", "123");
+        employeeRepository = new EmployeeDAO(connection);
+        departmentRepository = new DepartmentDAO(connection);
     }
 
     public void addDepartment(String name) throws SQLException {
